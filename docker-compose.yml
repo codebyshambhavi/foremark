@@ -1,0 +1,37 @@
+# FOREMARK local development services.
+#
+# Batch 1 provides PostgreSQL only. The backend and frontend run directly on
+# your machine during development; containers for them are added with the
+# deployment batch.
+#
+#   docker compose up -d db
+#   docker compose ps            # wait until the db shows "healthy"
+#   docker compose down          # stop (data kept)   |   docker compose down -v  # stop and DELETE data
+#
+# Variables come from .env (see .env.example). The defaults below are
+# throwaway LOCAL credentials only.
+
+services:
+  db:
+    image: postgres:16
+    container_name: foremark-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-foremark}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-foremark_dev_only}
+      POSTGRES_DB: ${POSTGRES_DB:-foremark}
+    ports:
+      # Bound to localhost only, so the database is not exposed on your network.
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - foremark_pgdata:/var/lib/postgresql/data
+      # Runs once, on first start with an empty data volume.
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  foremark_pgdata:

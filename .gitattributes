@@ -1,0 +1,21 @@
+# Normalise line endings so the repository behaves the same on Windows, macOS and Linux.
+#
+# Why this matters: Git for Windows may check files out with CRLF line endings. Python, SQL and Markdown
+# tolerate that, but shell scripts and Dockerfiles copied into Linux containers do NOT
+# ("cannot execute: required file not found"). Forcing LF in the working tree avoids the problem.
+* text=auto eol=lf
+
+# Binary files: never touch line endings.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.wav binary
+*.mp3 binary
+*.m4a binary
+*.ogg binary
+*.webm binary
+*.flac binary
+*.zip binary
+*.pdf binary

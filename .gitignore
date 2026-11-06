@@ -218,3 +218,47 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# =============================================================================
+# FOREMARK additions (everything above is the original Python template)
+# =============================================================================
+
+# The Python template above ignores any directory named "lib/". The Next.js
+# frontend conventionally keeps helpers in src/lib/, so re-include it.
+!frontend/src/lib/
+!frontend/lib/
+
+# Environment files: never commit real secrets. .env.example IS committed.
+.env.*
+!.env.example
+frontend/.env*
+!frontend/.env.example
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local object storage (uploaded audio/photos in development) and test output
+/storage/
+backend/storage/
+backend/scripts/out/
+backend/scripts/samples/
+coverage/
+htmlcov/
+.coverage
+playwright-report/
+test-results/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
